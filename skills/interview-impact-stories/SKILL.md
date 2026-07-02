@@ -1,6 +1,6 @@
 ---
 name: interview-impact-stories
-description: "Interview stories from codebases. Use when the user wants to turn a repository, portfolio project, resume draft, or job target into evidence-backed interview material: project stories, resume bullets, STAR/CAR answers, technical deep dives, role-specific capability framing, or interviewer follow-up prep."
+description: "Interview stories from codebases. Use when the user wants to turn a repository, portfolio project, resume draft, or job target into evidence-backed interview material: project stories, resume bullets, STAR/CAR answers, technical deep dives, role-specific capability framing, reviewer challenges, or interviewer follow-up prep."
 ---
 
 # Interview Impact Stories
@@ -21,43 +21,71 @@ If the target role or seniority is missing, infer it from the prompt and reposit
 
 ## Workflow
 
-### 1. Build the Evidence Base
+### 1. Triage the Inputs
+
+Identify the target role, seniority, interview language, available repository/materials, and whether the user wants a quick pass or a thorough pass. Default to a thorough pass when the user asks for resume-ready, interview-ready, or high-confidence material.
+
+Completion criterion: before repository work starts, know the target role or record the inferred role, know the output language, and know which materials are available.
+
+### 2. Run Parallel Repository Reconnaissance
+
+For a thorough pass, use independent subagents when the client supports them. If subagents are unavailable, run the same lanes sequentially and keep their notes separate until synthesis. Do not let one lane see another lane's conclusions before it has produced its own evidence.
+
+Default lanes:
+
+- Product/domain lane: identify users, workflows, business context, core features, demos, docs, seed data, and externally visible value.
+- Architecture/implementation lane: identify entrypoints, module boundaries, data models, APIs, integrations, algorithms, state, infra, and cross-cutting design choices.
+- Quality/evolution lane: identify tests, validation, errors, security, observability, performance, CI/CD, migrations, git history, issues, changelog, and before/after evolution.
+
+Each lane returns:
+
+```markdown
+## Lane: [name]
+- What the system does:
+- Strong claim candidates:
+- Evidence:
+- Gaps or weak claims:
+- Files/commits/docs inspected:
+```
+
+Completion criterion: each lane has inspected different evidence and produced claim candidates with file paths, commits, tests, docs, or observed behavior. If only one agent is available, the final notes still separate the three lanes.
+
+### 3. Build the Evidence Base
 
 Inspect the repository before writing polished claims. Build an evidence ledger before drafting answers. Prefer fast, broad discovery first, then focused reading:
 
-- Identify product purpose from README, docs, package manifests, route names, screenshots, seed data, tests, deployment config, and domain terms.
-- Identify architecture from entrypoints, module boundaries, data models, API routes, background jobs, state management, infra files, and integrations.
-- Identify real functionality by reading user-facing flows, tests, examples, CLI commands, controllers, components, services, schemas, and configuration.
-- Identify quality signals from tests, validation, error handling, observability, CI, security boundaries, migrations, performance work, accessibility, and operational scripts.
-- Check git history, issues, or changelog when available to infer evolution, ownership, and before/after changes.
+- Build a repo map naming product purpose, stack, entrypoints, primary data entities, main user/operator flows, external integrations, persistence layer, test strategy, deployment/runtime shape, and obvious gaps.
+- Trace at least one real vertical flow end to end: UI/CLI/API entrypoint -> validation or state change -> domain/service logic -> persistence or external call -> response/error handling -> test or observable behavior.
+- Run a framework/default audit: separate custom candidate decisions from scaffolded code, generated files, library defaults, and conventional setup.
+- Check git history, issues, changelog, PR notes, or blame for ownership and evolution. If unavailable, too noisy, or outside scope, record that limitation in the ledger.
 
 Keep an evidence ledger while reading:
 
 ```markdown
-| Claim candidate | Evidence | Confidence | Gaps |
-|---|---|---:|---|
-| [What seems true] | [file paths, commit, tests, docs, observed behavior] | High/Medium/Low | [what to ask or verify] |
+| Claim candidate | Evidence | Source type | Confidence | Gaps |
+|---|---|---|---:|---|
+| [What seems true] | [file paths, commits, tests, runtime behavior] | code/docs/test/git/runtime/user | High/Medium/Low | [what to ask or verify] |
 ```
 
-Use file paths, commit references, or concrete code concepts as evidence. Do not invent metrics, scale, users, revenue, latency, ownership, or production usage.
+Use file paths, commit references, or concrete code concepts as evidence. High-confidence final claims need code evidence plus one corroborator when available: tests, docs, commits, config, runtime behavior, screenshots, issues, or user confirmation. Do not invent metrics, scale, users, revenue, latency, ownership, or production usage.
 
-Completion criterion: do not draft final interview material until the ledger covers product purpose, at least one user-facing or operator-facing flow, architecture boundaries, quality signals, and gaps. If the repository does not contain enough evidence for one of these, record the missing evidence explicitly.
+Completion criterion: do not draft final interview material until the ledger contains a cited repo map, one traced vertical flow, architecture boundaries, quality signals, git/history ownership evidence or a recorded reason it is unavailable, and explicit gaps. If any category is missing, carry it forward as a gap rather than compensating with polished wording.
 
-### 2. Derive the Project Story
+### 4. Derive the Project Story
 
 For each strong project or feature, fill this story spine:
 
 - Problem: what user, business, operational, or developer pain the work addressed.
 - Context: who used it, why it mattered, and what constraints existed.
-- Contribution: what the candidate personally built or would credibly claim, separated from team or framework behavior.
+- Contribution: what the candidate personally did, using explicit user input, commit history, or other evidence. If ownership is not proven, label it as team/app behavior and avoid "I designed" or "I built."
 - Technical core: architecture, algorithms, data model, protocols, integrations, UX flows, infra, tests, or automation that made the work non-trivial.
 - Decisions: key tradeoffs, rejected alternatives, and why the chosen approach fit the constraints.
-- Result: measured outcome if present; otherwise observable outcome such as enabled workflow, reduced manual steps, improved reliability posture, added capability, or made future change easier.
+- Result: measured outcome if present; otherwise an observable before/after effect tied to a concrete mechanism, such as removed manual steps, enabled a user flow, prevented a known failure mode, simplified a change path, or added validation/tests around a risky path.
 - Proof: files, tests, screenshots, docs, or demo behavior supporting the story.
 
 Completion criterion: every selected story has a concrete contribution, a technical core, a result or defensible effect, and proof. Drop or mark as "needs confirmation" any story missing two or more of those parts.
 
-### 3. Score Like an Interviewer
+### 5. Score Like an Interviewer
 
 Prioritize stories that score well on at least three dimensions:
 
@@ -70,9 +98,33 @@ Prioritize stories that score well on at least three dimensions:
 
 Downgrade stories that are mostly CRUD, library setup, cosmetic UI, copied boilerplate, or claims with no evidence unless they can be reframed around real constraints or outcomes.
 
-Completion criterion: select the strongest stories by score, not by file size or implementation volume. For each selected story, name the interview dimension it demonstrates best.
+Completion criterion: select the strongest stories by score, then strip or downgrade any individual claim that lacks proof. For each selected story, name the interview dimension it demonstrates best and the weakest claim an interviewer is likely to challenge.
 
-### 4. Tailor to the Target Role
+### 6. Challenge the Claims
+
+Run a red-team challenge pass before final output. Use separate subagents when available; otherwise run both roles sequentially and keep their objections separate.
+
+- Reviewer challenge: attack technical accuracy, missing evidence, inflated ownership, framework-default claims, unsupported metrics, architecture misunderstandings, and shallow tradeoffs.
+- Interviewer challenge: attack business value, seniority signal, story clarity, follow-up durability, credibility under pressure, and whether the answer sounds like real ownership.
+
+For each claim, ask:
+
+- What exact follow-up would expose this as vague, inflated, or unsupported?
+- What file, commit, test, behavior, or user flow proves it?
+- Is this candidate-owned, team-owned, framework-default, or merely app-contained?
+- What is the strongest defensible version of the claim if metrics or ownership are missing?
+- What limitation, tradeoff, or failure mode should the candidate be ready to admit?
+
+For every major claim, choose one disposition:
+
+- Keep: evidence is strong and the claim is interview-worthy.
+- Narrow: claim is directionally true but wording overreaches.
+- Move to gaps: claim needs user confirmation, metric data, or stronger proof.
+- Drop: claim is generic, unsupported, or not useful for the target role.
+
+Completion criterion: no resume bullet, STAR/CAR answer, or deep-dive point survives unless it has passed both reviewer and interviewer challenge, been narrowed to a defensible version, or is explicitly labeled "needs confirmation."
+
+### 7. Tailor to the Target Role
 
 Map the same evidence differently by role:
 
@@ -99,17 +151,21 @@ Adapt the format to the request, but default to this structure:
 ## Best Stories
 ### 1. [Story title]
 - Interview use: [behavioral / technical deep dive / resume / system design / leadership]
+- Capability signal: [what this proves for the target role]
 - What I built: [candidate-centered claim]
 - Business/user context: [why it mattered]
 - Technical substance: [architecture and implementation depth]
 - Result/effect: [measured or defensible observed outcome]
 - Evidence: [files, tests, docs, commits, or observed behavior]
+- Challenge result: [kept / narrowed / needs confirmation, and why]
 - Strong answer: [60-90 second answer in STAR/CAR form]
-- Likely follow-ups: [3-5 interviewer questions]
-- How to answer follow-ups: [specific talking points]
+- Skeptical follow-ups: [3-5 questions that test ownership, tradeoffs, edge cases, scale, failure modes, and whether the claim is inflated]
+- Defensible answers: [specific talking points, evidence, and what not to overclaim]
 
 ## Resume Bullets
 - [Action verb + technical contribution + business/result evidence]
+
+For each bullet, verify action, mechanism, scope, result, and proof. Do not output bullets that are only action + technology with no mechanism or effect.
 
 ## Technical Deep Dive Bank
 - Architecture:
@@ -123,9 +179,9 @@ Adapt the format to the request, but default to this structure:
 - [Questions or missing metrics that would make the story stronger]
 ```
 
-For a quick request, produce only the strongest 3-5 stories and the best resume bullets. For a thorough request, include all sections.
+For a quick request, shorten the output to the strongest 3-5 stories and best resume bullets, but still complete the evidence ledger gate before drafting. For a thorough request, include all sections.
 
-Completion criterion: the output must contain enough evidence for the user to defend the answer under follow-up. If evidence is weak, surface gaps instead of polishing the claim.
+Completion criterion: before final output, run a claim audit. Every polished claim must be marked as Fact, Inference, or Suggested Wording. Facts need evidence; inferences need reasoning and caveats; suggested wording must avoid unsupported ownership, metrics, scale, users, revenue, latency, and production usage.
 
 ## Answer Quality Rules
 
@@ -134,9 +190,10 @@ Completion criterion: the output must contain enough evidence for the user to de
 - Separate facts, inferences, and suggested wording. Mark uncertain claims as "needs confirmation."
 - Prefer "I designed/implemented/debugged/validated" only when ownership is supported by the user's prompt, commit history, or explicit instruction.
 - If no real metrics exist, offer metric-ready phrasing such as "reduced manual review steps" or "made X workflow possible," and list what data would quantify it.
-- Keep answers defensible under follow-up. Every polished answer should have at least one concrete file, component, test, decision, or behavior behind it.
+- Every polished claim must cite at least one concrete file, component, test, commit, decision, or observed behavior; otherwise mark it as inference or needs confirmation.
 - Include at least one tradeoff or limitation for each major story; perfect-sounding answers are less credible.
 - Do not overfit to buzzwords. Use role keywords only when the repository evidence supports them.
+- Prefer fewer strong stories over many weak ones. A story that cannot survive reviewer and interviewer challenge should become a gap or be dropped.
 
 ## Common Gotchas
 
