@@ -1,17 +1,15 @@
 ---
 name: interview-impact-stories
-description: Use this skill when the user wants interview-ready project material from a codebase, repository, portfolio project, resume prompt, or job target. It extracts evidence-backed stories about what was built, business/product context, architecture, technical decisions, ownership, impact, tradeoffs, outcomes, resume bullets, STAR/CAR answers, technical deep dives, and likely interviewer follow-up questions. Trigger for interview prep, behavioral interviews, technical interviews, resume/project polishing, portfolio storytelling, promotion packets, or role-specific capability framing.
+description: "Interview stories from codebases. Use when the user wants to turn a repository, portfolio project, resume draft, or job target into evidence-backed interview material: project stories, resume bullets, STAR/CAR answers, technical deep dives, role-specific capability framing, or interviewer follow-up prep."
 ---
 
 # Interview Impact Stories
 
 ## Overview
 
-Turn a repository and the user's prompt into evidence-backed interview material. Optimize for what a strong interviewer can verify and score highly: clear problem framing, credible ownership, technical depth, business or user impact, tradeoffs, results, and crisp answers under follow-up.
+Turn a repository and the user's prompt into evidence-backed interview stories. Optimize for what a strong interviewer can verify and score highly: clear problem framing, credible ownership, technical depth, business or user impact, tradeoffs, results, and crisp answers under follow-up.
 
 ## Inputs
-
-Work with any programming language, framework, repository shape, or agent client. Use whatever local tools the environment provides to inspect files and version history.
 
 Expected inputs may include:
 
@@ -25,7 +23,7 @@ If the target role or seniority is missing, infer it from the prompt and reposit
 
 ### 1. Build the Evidence Base
 
-Inspect the repository before writing polished claims. Prefer fast, broad discovery first, then focused reading:
+Inspect the repository before writing polished claims. Build an evidence ledger before drafting answers. Prefer fast, broad discovery first, then focused reading:
 
 - Identify product purpose from README, docs, package manifests, route names, screenshots, seed data, tests, deployment config, and domain terms.
 - Identify architecture from entrypoints, module boundaries, data models, API routes, background jobs, state management, infra files, and integrations.
@@ -43,9 +41,11 @@ Keep an evidence ledger while reading:
 
 Use file paths, commit references, or concrete code concepts as evidence. Do not invent metrics, scale, users, revenue, latency, ownership, or production usage.
 
+Completion criterion: do not draft final interview material until the ledger covers product purpose, at least one user-facing or operator-facing flow, architecture boundaries, quality signals, and gaps. If the repository does not contain enough evidence for one of these, record the missing evidence explicitly.
+
 ### 2. Derive the Project Story
 
-For each strong project or feature, fill this map:
+For each strong project or feature, fill this story spine:
 
 - Problem: what user, business, operational, or developer pain the work addressed.
 - Context: who used it, why it mattered, and what constraints existed.
@@ -54,6 +54,8 @@ For each strong project or feature, fill this map:
 - Decisions: key tradeoffs, rejected alternatives, and why the chosen approach fit the constraints.
 - Result: measured outcome if present; otherwise observable outcome such as enabled workflow, reduced manual steps, improved reliability posture, added capability, or made future change easier.
 - Proof: files, tests, screenshots, docs, or demo behavior supporting the story.
+
+Completion criterion: every selected story has a concrete contribution, a technical core, a result or defensible effect, and proof. Drop or mark as "needs confirmation" any story missing two or more of those parts.
 
 ### 3. Score Like an Interviewer
 
@@ -68,6 +70,8 @@ Prioritize stories that score well on at least three dimensions:
 
 Downgrade stories that are mostly CRUD, library setup, cosmetic UI, copied boilerplate, or claims with no evidence unless they can be reframed around real constraints or outcomes.
 
+Completion criterion: select the strongest stories by score, not by file size or implementation volume. For each selected story, name the interview dimension it demonstrates best.
+
 ### 4. Tailor to the Target Role
 
 Map the same evidence differently by role:
@@ -81,6 +85,8 @@ Map the same evidence differently by role:
 - Senior roles: ambiguous problem framing, architecture tradeoffs, mentoring, cross-team impact, risk management, and long-term maintainability.
 
 Use the user's preferred interview language. If not specified, answer in the user's language.
+
+Completion criterion: each final story must make the role-relevant capability explicit. Avoid generic "full-stack project" phrasing when the target role implies a sharper capability.
 
 ## Output Structure
 
@@ -118,6 +124,8 @@ Adapt the format to the request, but default to this structure:
 ```
 
 For a quick request, produce only the strongest 3-5 stories and the best resume bullets. For a thorough request, include all sections.
+
+Completion criterion: the output must contain enough evidence for the user to defend the answer under follow-up. If evidence is weak, surface gaps instead of polishing the claim.
 
 ## Answer Quality Rules
 
