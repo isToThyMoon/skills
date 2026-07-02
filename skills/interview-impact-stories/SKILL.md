@@ -103,10 +103,10 @@ Completion criterion: select the strongest stories by score, then strip or downg
 
 ### 6. Challenge the Claims
 
-Run a red-team challenge pass before final output. Use separate subagents when available; otherwise run both roles sequentially and keep their objections separate.
+Run a red-team-and-packaging pass before final output. Use separate subagents when available; otherwise run both roles sequentially and keep their objections separate. Each challenge must both attack weak claims and propose a stronger, answerable packaging path.
 
-- Reviewer challenge: attack technical accuracy, missing evidence, inflated ownership, framework-default claims, unsupported metrics, architecture misunderstandings, and shallow tradeoffs.
-- Interviewer challenge: attack business value, seniority signal, story clarity, follow-up durability, credibility under pressure, and whether the answer sounds like real ownership.
+- Reviewer challenge: attack and improve the technical story from architecture, code quality, and production-readiness angles. Check whether each claim is a real design decision, ordinary implementation detail, framework default, or unsupported production claim. Then propose a defensible technical packaging upgrade: sharper mechanism, tradeoff, failure mode, quality signal, or next-step architecture.
+- Interviewer challenge: attack and improve the interview story from recruiter, hiring manager, technical interviewer, seniority calibration, and story editor angles. Check whether the story has a memorable hook, role fit, credible ownership, clear value, and durable follow-up answers. Then propose a stronger narrative shape and talking points the candidate can actually defend.
 
 For each claim, ask:
 
@@ -115,6 +115,8 @@ For each claim, ask:
 - Is this candidate-owned, team-owned, framework-default, or merely app-contained?
 - What is the strongest defensible version of the claim if metrics or ownership are missing?
 - What limitation, tradeoff, or failure mode should the candidate be ready to admit?
+- What packaging upgrade would make this more impressive without changing the facts?
+- What deepening path can the candidate realistically discuss: alternative designs, tradeoffs, failure handling, quality work, business context, collaboration, or future improvements?
 
 For every major claim, choose one disposition:
 
@@ -123,7 +125,14 @@ For every major claim, choose one disposition:
 - Move to gaps: claim needs user confirmation, metric data, or stronger proof.
 - Drop: claim is generic, unsupported, or not useful for the target role.
 
-Completion criterion: no resume bullet, STAR/CAR answer, or deep-dive point survives unless it has passed both reviewer and interviewer challenge, been narrowed to a defensible version, or is explicitly labeled "needs confirmation."
+For each surviving claim, produce:
+
+- Stronger framing: the most impressive defensible wording.
+- Deepening path: the concrete explanation, tradeoff, alternative, failure mode, or improvement the candidate can discuss.
+- Answerable proof: the evidence or user-confirmed fact that supports it.
+- Safe fallback: how to respond if the interviewer challenges scale, ownership, metrics, production readiness, or business impact.
+
+Completion criterion: no resume bullet, STAR/CAR answer, or deep-dive point survives unless it has passed both reviewer and interviewer challenge, includes a packaging/deepening path, and is either evidence-backed, narrowed to a defensible version, or explicitly labeled "needs confirmation."
 
 ### 7. Deepen and Package the Experience
 
