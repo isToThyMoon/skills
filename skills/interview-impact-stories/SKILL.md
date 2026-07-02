@@ -1,6 +1,6 @@
 ---
 name: interview-impact-stories
-description: "Interview stories from codebases. Use when the user wants to turn a repository, portfolio project, resume draft, or job target into evidence-backed interview material: project stories, resume bullets, STAR/CAR answers, technical deep dives, role-specific capability framing, reviewer challenges, or interviewer follow-up prep."
+description: "Interview stories from codebases. Use when the user wants to turn a repository, portfolio project, resume draft, or job target into evidence-backed interview material: project stories, resume bullets, STAR/CAR answers, technical deep dives, role-specific capability framing, reviewer challenges, candidate-ready answer boundaries, or interviewer follow-up prep."
 ---
 
 # Interview Impact Stories
@@ -124,7 +124,21 @@ For every major claim, choose one disposition:
 
 Completion criterion: no resume bullet, STAR/CAR answer, or deep-dive point survives unless it has passed both reviewer and interviewer challenge, been narrowed to a defensible version, or is explicitly labeled "needs confirmation."
 
-### 7. Tailor to the Target Role
+### 7. Calibrate Candidate Readiness
+
+Do not only make the project sound impressive. Make it answerable. Convert thin or ordinary work into honest, defensible project experience by deepening the context, mechanism, tradeoff, learning, and follow-up answers without inventing scale, ownership, metrics, or production impact.
+
+For each selected story, produce three layers:
+
+- Core answer: what the candidate can say confidently in 60-90 seconds.
+- Follow-up depth: concrete implementation details, tradeoffs, failure modes, and next improvements the candidate should be ready to explain.
+- Boundary: what not to claim, what to say if asked about missing scale/metrics/ownership, and which facts need user confirmation.
+
+If a repository or work experience is not highly impressive, do not force a grand narrative. Reframe it around practical signals: problem decomposition, debugging, implementation ownership, tradeoff awareness, testing discipline, learning velocity, communication, or making a workflow possible.
+
+Completion criterion: every final story must include both a polished answer and a safe boundary. The user should not be left with a claim that sounds strong but collapses under a realistic follow-up.
+
+### 8. Tailor to the Target Role
 
 Map the same evidence differently by role:
 
@@ -136,7 +150,7 @@ Map the same evidence differently by role:
 - Early-career roles: learning velocity, decomposition, testing discipline, debugging, collaboration, and ability to explain fundamentals.
 - Senior roles: ambiguous problem framing, architecture tradeoffs, mentoring, cross-team impact, risk management, and long-term maintainability.
 
-Use the user's preferred interview language. If not specified, answer in the user's language.
+Use the requested output language. If the user writes or asks in Chinese, produce Chinese interview material; if the user asks for English, produce English. Keep evidence labels and code identifiers unchanged when translating.
 
 Completion criterion: each final story must make the role-relevant capability explicit. Avoid generic "full-stack project" phrasing when the target role implies a sharper capability.
 
@@ -159,6 +173,7 @@ Adapt the format to the request, but default to this structure:
 - Evidence: [files, tests, docs, commits, or observed behavior]
 - Challenge result: [kept / narrowed / needs confirmation, and why]
 - Strong answer: [60-90 second answer in STAR/CAR form]
+- Safe boundary: [what not to overclaim, and how to answer if asked about missing metrics, scale, ownership, or production usage]
 - Skeptical follow-ups: [3-5 questions that test ownership, tradeoffs, edge cases, scale, failure modes, and whether the claim is inflated]
 - Defensible answers: [specific talking points, evidence, and what not to overclaim]
 
@@ -194,6 +209,7 @@ Completion criterion: before final output, run a claim audit. Every polished cla
 - Include at least one tradeoff or limitation for each major story; perfect-sounding answers are less credible.
 - Do not overfit to buzzwords. Use role keywords only when the repository evidence supports them.
 - Prefer fewer strong stories over many weak ones. A story that cannot survive reviewer and interviewer challenge should become a gap or be dropped.
+- Deepen ordinary work through context, mechanism, tradeoff, and reflection. Do not inflate ordinary work into senior-level architecture, scale, or business impact unless the evidence supports it.
 
 ## Common Gotchas
 
@@ -202,3 +218,4 @@ Completion criterion: before final output, run a claim audit. Every polished cla
 - Do not assume production scale, users, revenue, latency, or business impact from code alone.
 - Do not bury weak evidence. Say what is observed and what the candidate should confirm.
 - Do not treat framework defaults as candidate achievement unless the candidate customized, integrated, operated, or made a meaningful decision around them.
+- Do not hand the user impressive wording they cannot defend from their actual work. Add safe fallback answers for likely follow-ups instead.
