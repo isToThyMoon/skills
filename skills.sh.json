@@ -1,0 +1,11 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Interview Prep",
+      "description": "Skills for turning repositories into interview-ready project stories.",
+      "skills": ["interview-impact-stories"]
+    }
+  ]
+}
