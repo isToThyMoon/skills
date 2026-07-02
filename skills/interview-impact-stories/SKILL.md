@@ -1,23 +1,23 @@
 ---
 name: interview-impact-stories
-description: "Interview stories from codebases. Use when the user wants to turn a repository, portfolio project, resume draft, or job target into impressive, evidence-backed interview material: project story packaging, resume bullets, STAR/CAR answers, technical deep dives, experience deepening, reviewer challenges, candidate-ready answer boundaries, or interviewer follow-up prep."
+description: "Interview project stories from evidence. Use when the user wants to turn repositories, project notes, resumes, job descriptions, PRDs, docs, screenshots, metrics, demos, or other materials into impressive but defensible interview material: project story packaging, experience deepening, resume bullets, STAR/CAR answers, technical deep dives, reviewer challenges, candidate-ready answer boundaries, and follow-up prep."
 ---
 
-# Interview Impact Stories
+# Interview Project Stories
 
 ## Overview
 
-Turn a repository and the user's prompt into evidence-backed interview stories. Optimize for what a strong interviewer can verify and score highly: clear problem framing, credible ownership, technical depth, business or user impact, tradeoffs, results, and crisp answers under follow-up.
+Turn project evidence and the user's prompt into impressive, evidence-backed interview stories. Optimize for what a strong interviewer can verify and score highly: clear problem framing, credible ownership, technical depth, business or user impact, tradeoffs, results, and crisp answers under follow-up.
 
 ## Inputs
 
 Expected inputs may include:
 
 - A repository path, current working directory, uploaded files, or pasted code.
-- A pre-prompt from the user describing goals, background, target companies, target role, seniority, language, or desired tone.
-- Optional resume, job description, PRD, README, demo link, commit history, issues, screenshots, metrics, or deployment notes.
+- Project notes, resume drafts, job descriptions, PRDs, README/docs, demo links, commit history, issues, screenshots, metrics, deployment notes, or user-provided work context.
+- A pre-prompt describing goals, background, target companies, target role, seniority, language, or desired tone.
 
-If the target role or seniority is missing, infer it from the prompt and repository. Ask a concise clarification only when the missing detail would materially change the output.
+If the target role or seniority is missing, infer it from the prompt and materials. Ask a concise clarification only when the missing detail would materially change the output.
 
 ## Workflow
 
@@ -25,17 +25,17 @@ If the target role or seniority is missing, infer it from the prompt and reposit
 
 Identify the target role, seniority, interview language, available repository/materials, and whether the user wants a quick pass or a thorough pass. Default to a thorough pass when the user asks for resume-ready, interview-ready, or high-confidence material.
 
-Completion criterion: before repository work starts, know the target role or record the inferred role, know the output language, and know which materials are available.
+Completion criterion: before material analysis starts, know the target role or record the inferred role, know the output language, and know which materials are available.
 
-### 2. Run Parallel Repository Reconnaissance
+### 2. Run Parallel Material Reconnaissance
 
 For a thorough pass, use independent subagents when the client supports them. If subagents are unavailable, run the same lanes sequentially and keep their notes separate until synthesis. Do not let one lane see another lane's conclusions before it has produced its own evidence.
 
 Default lanes:
 
-- Product/domain lane: identify users, workflows, business context, core features, demos, docs, seed data, and externally visible value.
-- Architecture/implementation lane: identify entrypoints, module boundaries, data models, APIs, integrations, algorithms, state, infra, and cross-cutting design choices.
-- Quality/evolution lane: identify tests, validation, errors, security, observability, performance, CI/CD, migrations, git history, issues, changelog, and before/after evolution.
+- Product/domain lane: identify users, workflows, business context, core features, demos, docs, domain terms, and externally visible value.
+- Implementation/evidence lane: identify code architecture when available; otherwise extract concrete work from project notes, PRDs, docs, screenshots, metrics, demos, and user context.
+- Quality/evolution lane: identify tests, validation, errors, security, observability, performance, CI/CD, migrations, git history, issues, changelog, before/after evolution, or non-code evidence of delivery and quality.
 
 Each lane returns:
 
@@ -48,28 +48,29 @@ Each lane returns:
 - Files/commits/docs inspected:
 ```
 
-Completion criterion: each lane has inspected different evidence and produced claim candidates with file paths, commits, tests, docs, or observed behavior. If only one agent is available, the final notes still separate the three lanes.
+Completion criterion: each lane has inspected different evidence and produced claim candidates with citations to files, commits, tests, docs, screenshots, metrics, demos, or user-confirmed context. If only one agent is available, the final notes still separate the three lanes.
 
 ### 3. Build the Evidence Base
 
-Inspect the repository before writing polished claims. Build an evidence ledger before drafting answers. Prefer fast, broad discovery first, then focused reading:
+Inspect the available materials before writing polished claims. Build an evidence ledger before drafting answers. Prefer fast, broad discovery first, then focused reading:
 
-- Build a repo map naming product purpose, stack, entrypoints, primary data entities, main user/operator flows, external integrations, persistence layer, test strategy, deployment/runtime shape, and obvious gaps.
-- Trace at least one real vertical flow end to end: UI/CLI/API entrypoint -> validation or state change -> domain/service logic -> persistence or external call -> response/error handling -> test or observable behavior.
-- Run a framework/default audit: separate custom candidate decisions from scaffolded code, generated files, library defaults, and conventional setup.
-- Check git history, issues, changelog, PR notes, or blame for ownership and evolution. If unavailable, too noisy, or outside scope, record that limitation in the ledger.
+- Build a project map naming product purpose, target users, workflows, stack or tools when available, main deliverables, integrations, data or content handled, quality signals, deployment/runtime or delivery shape, and obvious gaps.
+- If code is available, trace at least one real vertical flow end to end: UI/CLI/API entrypoint -> validation or state change -> domain/service logic -> persistence or external call -> response/error handling -> test or observable behavior.
+- If code is not available, trace at least one real work flow end to end: requirement or problem -> user/business constraint -> candidate action -> artifact/deliverable -> feedback/outcome -> follow-up work.
+- Run a default/boilerplate audit: separate custom candidate decisions from scaffolded code, generated files, templates, library defaults, conventional setup, or team-owned context.
+- Check git history, issues, changelog, PR notes, docs, metrics, screenshots, user notes, or blame for ownership and evolution. If unavailable, too noisy, or outside scope, record that limitation in the ledger.
 
 Keep an evidence ledger while reading:
 
 ```markdown
 | Claim candidate | Evidence | Source type | Confidence | Gaps |
 |---|---|---|---:|---|
-| [What seems true] | [file paths, commits, tests, runtime behavior] | code/docs/test/git/runtime/user | High/Medium/Low | [what to ask or verify] |
+| [What seems true] | [files, commits, tests, docs, screenshots, metrics, demos, runtime behavior, user confirmation] | code/docs/test/git/runtime/product/user | High/Medium/Low | [what to ask or verify] |
 ```
 
-Use file paths, commit references, or concrete code concepts as evidence. High-confidence final claims need code evidence plus one corroborator when available: tests, docs, commits, config, runtime behavior, screenshots, issues, or user confirmation. Do not invent metrics, scale, users, revenue, latency, ownership, or production usage.
+Use concrete artifacts as evidence: file paths, commit references, code concepts, docs, PRDs, screenshots, metrics, demos, tickets, or user-confirmed work context. High-confidence final claims need at least one concrete artifact plus one corroborator when available. Do not invent metrics, scale, users, revenue, latency, ownership, or production usage.
 
-Completion criterion: do not draft final interview material until the ledger contains a cited repo map, one traced vertical flow, architecture boundaries, quality signals, git/history ownership evidence or a recorded reason it is unavailable, and explicit gaps. If any category is missing, carry it forward as a gap rather than compensating with polished wording.
+Completion criterion: do not draft final interview material until the ledger contains a cited project map, one traced code or work flow, technical or delivery boundaries, quality signals, ownership/evolution evidence or a recorded reason it is unavailable, and explicit gaps. If any category is missing, carry it forward as a gap rather than compensating with polished wording.
 
 ### 4. Derive the Project Story
 
@@ -216,13 +217,13 @@ Completion criterion: before final output, run a claim audit. Every polished cla
 - If no real metrics exist, offer metric-ready phrasing such as "reduced manual review steps" or "made X workflow possible," and list what data would quantify it.
 - Every polished claim must cite at least one concrete file, component, test, commit, decision, or observed behavior; otherwise mark it as inference or needs confirmation.
 - Include at least one tradeoff or limitation for each major story; perfect-sounding answers are less credible.
-- Do not overfit to buzzwords. Use role keywords only when the repository evidence supports them.
+- Do not overfit to buzzwords. Use role keywords only when the available evidence supports them.
 - Prefer fewer strong stories over many weak ones. A story that cannot survive reviewer and interviewer challenge should become a gap or be dropped.
 - Deepen ordinary work through context, mechanism, tradeoff, alternatives, failure modes, and reflection. The goal is impressive framing grounded in reality, not flat conservatism.
 
 ## Common Gotchas
 
-- Do not summarize the repository like documentation. Convert facts into interview value.
+- Do not summarize the materials like documentation. Convert facts into interview value.
 - Do not output only "亮点." Also produce the reasoning, evidence, answer scripts, follow-up preparation, resume wording, and missing proof.
 - Do not assume production scale, users, revenue, latency, or business impact from code alone.
 - Do not bury weak evidence. Say what is observed and what the candidate should confirm.

@@ -1,4 +1,4 @@
 interface:
   display_name: "Interview Impact Stories"
-  short_description: "Turn codebases into interview-ready impact stories"
-  default_prompt: "Use $interview-impact-stories to map this repository, deepen and package the experience, challenge the claims, then produce interview-ready stories and resume bullets in my language."
+  short_description: "Turn project evidence into interview-ready stories"
+  default_prompt: "Use $interview-impact-stories to map these materials, deepen and package the experience, challenge the claims, then produce interview-ready stories and resume bullets in my language."
