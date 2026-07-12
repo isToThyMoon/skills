@@ -41,6 +41,7 @@ Each lane returns:
 
 ```markdown
 ## Lane: [name]
+
 - What the system does:
 - Strong claim candidates:
 - Evidence:
@@ -63,8 +64,8 @@ Inspect the available materials before writing polished claims. Build an evidenc
 Keep an evidence ledger while reading:
 
 ```markdown
-| Claim candidate | Evidence | Source type | Confidence | Gaps |
-|---|---|---|---:|---|
+| Claim candidate   | Evidence                                                                                        | Source type                             |      Confidence | Gaps                    |
+| ----------------- | ----------------------------------------------------------------------------------------------- | --------------------------------------- | --------------: | ----------------------- |
 | [What seems true] | [files, commits, tests, docs, screenshots, metrics, demos, runtime behavior, user confirmation] | code/docs/test/git/runtime/product/user | High/Medium/Low | [what to ask or verify] |
 ```
 
@@ -178,10 +179,13 @@ Adapt the format to the request, but default to this structure:
 
 ```markdown
 ## Interview Positioning
+
 [2-4 sentences: what this project proves about the candidate for the target role.]
 
 ## Best Stories
+
 ### 1. [Story title]
+
 - Interview use: [behavioral / technical deep dive / resume / system design / leadership]
 - Capability signal: [what this proves for the target role]
 - What I built: [candidate-centered claim]
@@ -197,11 +201,13 @@ Adapt the format to the request, but default to this structure:
 - Defensible answers: [specific talking points, evidence, and what not to overclaim]
 
 ## Resume Bullets
+
 - [Action verb + technical contribution + business/result evidence]
 
 For each bullet, verify action, mechanism, scope, result, and proof. Do not output bullets that are only action + technology with no mechanism or effect.
 
 ## Technical Deep Dive Bank
+
 - Architecture:
 - Data flow:
 - Tradeoffs:
@@ -210,6 +216,7 @@ For each bullet, verify action, mechanism, scope, result, and proof. Do not outp
 - Performance/security/reliability:
 
 ## Gaps To Confirm
+
 - [Questions or missing metrics that would make the story stronger]
 ```
 
