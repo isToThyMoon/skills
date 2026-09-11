@@ -6,6 +6,11 @@
       "title": "Interview Prep",
       "description": "Skills for turning repositories into interview-ready project stories.",
       "skills": ["interview-impact-stories"]
+    },
+    {
+      "title": "Learning",
+      "description": "Skills for understanding unfamiliar concepts and technologies.",
+      "skills": ["explain"]
     }
   ]
 }
