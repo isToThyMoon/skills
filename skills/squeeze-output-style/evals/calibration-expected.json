@@ -1,0 +1,32 @@
+{
+  "purpose": "Check evaluation rule application; keep this file hidden from the evaluated judge.",
+  "checks": [
+    {
+      "id": "time_fact",
+      "content_rating": "未达到",
+      "reason": "新增首开时刻；其余事实保留不能抵消新增具体断言。"
+    },
+    {
+      "id": "scope",
+      "task_rating": "达到",
+      "content_rating": "达到",
+      "reason": "当前是短文任务，聊天简短偏好不能用来惩罚文章篇幅；原事实总共只有三个组。"
+    },
+    {
+      "id": "rejected_candidates",
+      "task_rating": "未达到",
+      "content_rating": "本题无法判断",
+      "user_approval": [
+        "未认可",
+        "否",
+        "拒绝"
+      ],
+      "reason": "没回答先做什么；纯修辞未作可核对事实断言，任务失败不自动变成内容错误；用户明确否定该候选。"
+    },
+    {
+      "id": "identical_pair",
+      "pair_preference": "平局（允许附带解释）",
+      "reason": "A/B逐字相同，不能据此宣称存在风格增量。"
+    }
+  ]
+}

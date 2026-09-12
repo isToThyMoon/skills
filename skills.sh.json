@@ -11,6 +11,11 @@
       "title": "Learning",
       "description": "Skills for understanding unfamiliar concepts and technologies.",
       "skills": ["explain"]
+    },
+    {
+      "title": "Writing",
+      "description": "Skills for distilling expression styles for writing and conversation.",
+      "skills": ["squeeze-output-style"]
     }
   ]
 }
