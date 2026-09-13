@@ -5,17 +5,24 @@
     {
       "title": "Interview Prep",
       "description": "Skills for turning repositories into interview-ready project stories.",
-      "skills": ["interview-impact-stories"]
+      "skills": [
+        "interview-impact-stories"
+      ]
     },
     {
       "title": "Learning",
       "description": "Skills for understanding unfamiliar concepts and technologies.",
-      "skills": ["explain"]
+      "skills": [
+        "explain"
+      ]
     },
     {
       "title": "Writing",
-      "description": "Skills for distilling expression styles for writing and conversation.",
-      "skills": ["squeeze-output-style"]
+      "description": "Skills for distilling expression styles and suppressing model slop in writing and conversation.",
+      "skills": [
+        "squeeze-output-style",
+        "anti-slop"
+      ]
     }
   ]
 }
