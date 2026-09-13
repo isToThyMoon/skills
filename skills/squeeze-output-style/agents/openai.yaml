@@ -1,4 +1,4 @@
 interface:
   display_name: "Squeeze Output Style"
   short_description: "从有限语料提取表达神韵，生成兼顾文章写作与日常聊天的风格技能"
-  default_prompt: "使用 $squeeze-output-style 按八个维度蒸馏语料神韵，生成可装载后持续用于聊天与写作的风格 skill，附具体输出标准和装载后验收任务。"
+  default_prompt: "使用 $squeeze-output-style 按十个维度蒸馏语料神韵，生成可装载后持续用于聊天与写作的风格 skill，附具体输出标准和装载后验收任务。"
