@@ -1,4 +1,0 @@
-interface:
-  display_name: "Orient"
-  short_description: "通过八类领域地图与五层理解学习领域语言，将模糊意图转成可执行、可验收的约束"
-  default_prompt: "使用 $orient 为我建立这个领域的八类 domain map，解释用途与关系，并用代表案例展示如何将模糊意图转成给 Agent 的可执行约束与验收办法。"
