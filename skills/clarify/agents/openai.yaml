@@ -1,0 +1,4 @@
+interface:
+  display_name: "Clarify"
+  short_description: "通过关键追问澄清随意表达，形成准确的领域描述和可验收的 Agent 要求"
+  default_prompt: "使用 $clarify，和我讨论这句话的真实意图，再整理成准确的领域描述与可执行要求。"
