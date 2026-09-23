@@ -9,7 +9,7 @@
 #
 # Usage:
 #   ./install.sh              # install every skill in this repo
-#   ./install.sh explain      # install only the named skill(s)
+#   ./install.sh anti-slop    # install only the named skill(s)
 set -euo pipefail
 
 REPO="isToThyMoon/skills"

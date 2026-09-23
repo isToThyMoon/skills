@@ -10,13 +10,6 @@
       ]
     },
     {
-      "title": "Learning",
-      "description": "Skills for understanding unfamiliar concepts and technologies.",
-      "skills": [
-        "explain"
-      ]
-    },
-    {
       "title": "Writing",
       "description": "Skills for distilling expression styles and suppressing model slop in writing and conversation.",
       "skills": [

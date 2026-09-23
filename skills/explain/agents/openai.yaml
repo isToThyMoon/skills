@@ -1,4 +1,0 @@
-interface:
-  display_name: "Explain"
-  short_description: "Explain a concept with verified examples, sources, and counterfactuals"
-  default_prompt: "Use $explain to explain this concept: run the example code, verify recent concepts against official sources, cover the counterfactual and timeline, and grade my stated understanding."
