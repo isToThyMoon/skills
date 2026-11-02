@@ -7,6 +7,9 @@
 # to force symlink mode. The verify step repairs the link if the CLI ever
 # falls back to copying.
 #
+# Before installing, it checks for commits on main not yet on origin/main and
+# asks whether to push them (the install pulls from GitHub, not this checkout).
+#
 # Usage:
 #   ./install.sh              # install every skill in this repo
 #   ./install.sh anti-slop    # install only the named skill(s)
@@ -16,6 +19,27 @@ REPO="isToThyMoon/skills"
 AGENTS_DIR="$HOME/.agents/skills"
 CLAUDE_DIR="$HOME/.claude/skills"
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# `npx skills add` installs from GitHub, so local commits on main that are not
+# pushed yet would be silently missing. Offer to push them first.
+if git -C "$REPO_DIR" rev-parse --verify -q origin/main >/dev/null; then
+  git -C "$REPO_DIR" fetch -q origin main || echo "  !! fetch failed, comparing with the last known origin/main" >&2
+  unpushed="$(git -C "$REPO_DIR" log --oneline origin/main..main)"
+  if [ -n "$unpushed" ]; then
+    echo "==> main has commits not on origin/main:"
+    echo "$unpushed" | sed 's/^/  /'
+    answer=""
+    if [ -t 0 ]; then
+      read -r -p "Push them to origin and install? [y/N] " answer
+    fi
+    case "$answer" in
+      y|Y|yes) git -C "$REPO_DIR" push origin main ;;
+      *) echo "aborted: install would use the old version on GitHub" >&2; exit 1 ;;
+    esac
+  fi
+else
+  echo "  !! no origin/main, skipping unpushed-commit check" >&2
+fi
 
 if [ "$#" -gt 0 ]; then
   skills=("$@")
