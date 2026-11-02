@@ -3,6 +3,8 @@
 
 Usage: python3 check_skill.py <skill-dir>
 Prints OK when every check passes; otherwise one line per problem, exit 1.
+Lines starting with "note:" are heuristics for the author to weigh; they never
+block OK.
 """
 import re
 import sys
@@ -11,6 +13,25 @@ from pathlib import Path
 MAX_LINES = 500
 MAX_DESCRIPTION = 1024
 TOC_THRESHOLD = 300
+COMPLETION_WORDS = r"完成条件|完成标准|done when|done:|complete when|completion|finished when"
+
+
+def steps_without_completion(body):
+    """Numbered step headings whose section never states a completion criterion."""
+    headings = list(re.finditer(r"^(#{1,6})\s+(.*)$", body, re.M))
+    missing = []
+    for i, h in enumerate(headings):
+        if not re.match(r"\d+[.、)]", h.group(2)):
+            continue
+        level = len(h.group(1))
+        end = len(body)
+        for later in headings[i + 1:]:
+            if len(later.group(1)) <= level:
+                end = later.start()
+                break
+        if not re.search(COMPLETION_WORDS, body[h.end():end], re.I):
+            missing.append(h.group(2).strip())
+    return missing
 
 
 def parse_frontmatter(text):
@@ -67,13 +88,29 @@ def main():
     refs |= set(re.findall(r"\]\(((?!https?:|#)[^)\s]+)\)", body))
     for ref in sorted(refs):
         if not (root / ref).exists():
-            problems.append(f"referenced path does not exist: {ref}")
+            problems.append(f"referenced path does not exist: {ref} (if it belongs to the skill's output, write it as `<output>/{ref}`)")
 
-    for md in sorted((root / "references").glob("*.md")) if (root / "references").is_dir() else []:
+    ref_docs = sorted((root / "references").glob("*.md")) if (root / "references").is_dir() else []
+    for md in ref_docs:
         content = md.read_text(encoding="utf-8")
         if content.count("\n") + 1 > TOC_THRESHOLD and not re.search(r"(?im)^#+\s*(目录|contents|table of contents)", content):
             problems.append(f"{md.relative_to(root)} is over {TOC_THRESHOLD} lines without a table of contents")
+        # A reference nothing points at never gets read.
+        others = [text] + [o.read_text(encoding="utf-8") for o in ref_docs if o != md]
+        if not any(md.name in other for other in others):
+            problems.append(f"{md.relative_to(root)} is not mentioned by SKILL.md or another reference")
 
+    notes = []
+    if fm.get("disable-model-invocation", "").lower() == "true" and re.search(r"use when", description, re.I):
+        notes.append("manual skill's description has trigger wording ('Use when'); a one-line summary for people is usually enough")
+    shouted = sorted(set(re.findall(r"\b(?:MUST|ALWAYS|NEVER)\b", body)))
+    if shouted:
+        notes.append(f"all-caps {', '.join(shouted)} in SKILL.md; explaining the reason usually works better")
+    for step in steps_without_completion(body):
+        notes.append(f"step '{step}' states no recognizable completion criterion")
+
+    for n in notes:
+        print(f"note: {n}")
     if problems:
         for p in problems:
             print(p)

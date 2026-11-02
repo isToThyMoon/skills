@@ -2,7 +2,7 @@
 
 起草和修改时查阅。每节先给规则，再给理由和例子。例子大多取自 mattpocock/skills 和 Anthropic 的 skill-creator。
 
-总纲：依循性取决于两个量，**同时要背的约束有多少**，以及**从读到说明到执行它，中间隔了多少内容**。字数本身不是问题。下面各节都在压这两个量：能检查的交给脚本，要判断的放进短会话并写清完成条件，跨步骤的状态存进文件。规则只在观察到真实失败后才加，每次只补一句。拿不准时，选让这两个量更小的写法。
+总纲：依循性取决于两个量，**同时要背的约束有多少**，以及**从读到说明到执行它，中间隔了多少内容**。字数本身不是问题。下面各节都在压这两个量：能检查的交给脚本，要判断的放进短会话并写清完成条件，跨步骤的状态存进文件。规则只在观察到真实失败后才加，每次只补一句。拿不准时，选让这两个量更小的写法。把 skill 当 harness 来写：目标、完成条件和检查环节写死，中间怎么做留给模型发挥。
 
 ## 目录
 
@@ -44,10 +44,9 @@ description 是模型决定是否调用一个 skill 的主要依据，而且每�
 - **触发分支可以带几句用户原话**（`Use when the user says "…"`），只带模型从意思上联想不到的：团队内部叫法、自造词、容易和别的 skill 混淆的说法。同一件事的几种说法只留一种。只在 Claude Code 里用的 skill，这些原话也可以放进 `when_to_use` 字段（拼在 description 后面，两者合计 1536 字符）；要给 Codex 等其他工具用的，继续写在 description 里。
 - **关键词放最前面。**
 - **不写正文已经讲清楚的身份介绍。**
-- **"它是什么"用几个词点出这件事，不写成任务说明。** 参数、格式、规则（邮箱、分几块、列几个目录）属于正文。写进 description 的话，它读起来就成了一段完整的 prompt；改一个参数还得同时改两处。对照：
-  - 写成 prompt 的：`把当前仓库最近 7 天我自己（me@example.com）的 commit 整理成中文 markdown 周报，分新功能、修复、重构、其他四块，末尾列改动最多的三个目录。`
-  - 手动调用的：`整理本周自己的 commit，生成中文周报。`
-  - 模型自动调用的：`整理一段时间内的 git commit，生成中文周报。Use when the user asks for a weekly report or a summary of this week's commits.`
+- **"它是什么"用几个词点出这件事，不写成任务说明。** 参数、格式、规则（阈值、输出分几块、查哪些目录）只放在正文，这样改一个参数只改一处。例如检查数据库迁移的 skill：
+  - 手动调用的：`检查本次的数据库迁移脚本，生成风险报告。`
+  - 模型自动调用的：`检查数据库迁移脚本，生成风险报告。Use when the user is about to ship a migration or asks whether a schema change is safe.`
 
 示例（tdd）：`Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions "red-green-refactor", or wants integration tests.`
 

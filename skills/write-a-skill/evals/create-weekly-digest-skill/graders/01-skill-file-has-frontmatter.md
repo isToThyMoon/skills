@@ -1,6 +1,6 @@
 ---
 type: llm
-focus: trace
+focus: { source: file, path: skills/weekly-digest/SKILL.md }
 weight: 1
 ---
 
