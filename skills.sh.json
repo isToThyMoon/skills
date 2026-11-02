@@ -13,7 +13,7 @@
       "title": "Project Setup",
       "description": "Skills for setting up a project's coding-agent harness.",
       "skills": [
-        "init-harness"
+        "setup-harness"
       ]
     },
     {

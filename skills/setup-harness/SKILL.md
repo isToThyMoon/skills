@@ -1,10 +1,10 @@
 ---
-name: init-harness
+name: setup-harness
 description: 给项目铺设或优化最小 harness：AGENTS.md 入口、业务词表、统一检查入口和 UI token。
 disable-model-invocation: true
 ---
 
-# Init Harness
+# Setup Harness
 
 目标是让之后每个 coding agent 在新会话里都能快速定位需求点，并沿用项目的技术栈、架构和视觉风格。harness 只提供引导和反馈，大部分决定留给之后干活的 agent。`assets/`、`references/`、`scripts/` 都相对于本 skill 所在目录，不是目标仓库。
 
@@ -22,7 +22,7 @@ disable-model-invocation: true
 - **已有代码**：一切从代码、配置、测试、README 和 git 历史提取，架构保持原样。
 - **已有 harness**：存在 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`、`.cursor/rules/`、`.cursorrules`、`.github/copilot-instructions.md`、词表、检查脚本或 token 中的任何一个。全部按本 skill 的标准优化。
 
-再判断项目有没有界面（Web、App、桌面端都算）。把分支、是否有界面、已有 harness 文件清单和待问用户的问题写进 `$TMPDIR/init-harness/plan.md`（放在仓库外，免得混进 diff）。
+再判断项目有没有界面（Web、App、桌面端都算）。把分支、是否有界面、已有 harness 文件清单和待问用户的问题写进 `$TMPDIR/setup-harness/plan.md`（放在仓库外，免得混进 diff）。
 
 完成条件：工作区干净，`plan.md` 写明分支和是否有界面，已有 harness 的每个文件都列在清单里。
 
