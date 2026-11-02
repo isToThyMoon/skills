@@ -11,10 +11,11 @@
     },
     {
       "title": "Writing",
-      "description": "Skills for distilling expression styles and suppressing model slop in writing and conversation.",
+      "description": "Skills for distilling expression styles, suppressing model slop, and writing agent skills.",
       "skills": [
         "squeeze-output-style",
-        "anti-slop"
+        "anti-slop",
+        "write-a-skill"
       ]
     }
   ]
