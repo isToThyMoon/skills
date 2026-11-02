@@ -47,9 +47,9 @@ description: 写、改、拆分或诊断 agent skill（SKILL.md），让 agent �
 
 运行 `python3 scripts/check_skill.py <草稿目录>`，修到输出 `OK`。
 
-多步流程、带脚本或子 agent、要给别人用的 skill，再做一轮独立审查；一两步的小 skill 只跑脚本。诊断分支始终审查。审查时在全新上下文里启动一个子 agent，可以用更便宜的模型（例如 Sonnet 或 Haiku），prompt 里给它草稿目录路径、`brief.md` 全文和 `references/review-checklist.md` 全文，要求它逐条对照清单，引用原文，分"硬性问题"和"需要判断的问题"，每条附改法，500 字以内。在前台启动并等它返回再继续，不用定时等待。只审一轮，除非修改动了结构。
+多步流程、带脚本或子 agent、要给别人用的 skill，再做一轮独立审查；一两步的小 skill 只跑脚本。诊断分支始终审查。审查时在全新上下文里启动一个子 agent，可以用更便宜的模型（例如 Sonnet 或 Haiku），prompt 里给它草稿目录路径、`brief.md` 全文和 `references/review-checklist.md` 全文，要求它逐条对照清单，引用原文，分"硬性问题"和"需要判断的问题"，每条附改法，500 字以内，写进 `<name>-workspace/review.md`。审查结论只从 `review.md` 里取。只审一轮，除非修改动了结构。
 
-完成条件：脚本输出 `OK`；审查过的，硬性问题都已修改，没改的判断类问题各有一句理由；跳过审查的，在 `brief.md` 里写一句理由。
+完成条件：脚本输出 `OK`；审查过的，`review.md` 已存在，其中每条硬性问题都已修改，没改的判断类问题各有一句理由；跳过审查的，在 `brief.md` 里写一句理由。
 
 ## 4. 交付
 
