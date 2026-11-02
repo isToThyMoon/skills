@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: split-monolithic-skill
+expected_outcome: |
+  原文件不动，在 competitor-brief-v2/ 下给出重构结果。核心改动是按阶段拆开（例如调研、分析成文、衍生物），
+  阶段之间用文件交接：调研笔记和来源逐条写进文件，而不是"记在脑子里、最后再写"；
+  每个阶段/步骤有可判定的完成条件（例如每条价格都能对上一条来源）；
+  引用核对交给独立审查或脚本；子 agent 若使用，写明从全新上下文启动。说明拆分理由。
+context:
+  scaffold_script: place-files.sh
