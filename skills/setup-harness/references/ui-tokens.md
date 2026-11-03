@@ -26,12 +26,13 @@ token 分原始值和语义两级：`blue-500` 是原始值，`color-accent`、`
 | Jetpack Compose | `MaterialTheme` 加自定义 `CompositionLocal` |
 | Flutter | `ThemeData` 加 `ThemeExtension` |
 
-多个代码库共用一套视觉时，用 [DTCG](https://www.designtokens.org/) 格式的 JSON 作来源，再用 Style Dictionary 生成各端文件；生成的文件在开头注明"改来源，不改这里"。
+新建多个代码库共用的视觉时，用 [DTCG](https://www.designtokens.org/) 格式的 JSON 作来源，再用 Style Dictionary 生成各端文件；生成的文件在开头注明"改来源，不改这里"。各端已有自己的 token 时不合并：`DESIGN.md` 写基准端的值，并列出各端的 token 文件和界面规范。
 
 ## 步骤
 
 1. **定值。**
-   - 已有界面：统计现有代码里的颜色、字号、间距和圆角，按出现频率归并相近的值，写成 token。新 token 要能表达现有界面，这样之后的改动不会让风格突变。
+   - 已有 token：值保持不变，只核对类别覆盖，然后补 `DESIGN.md` 和检查；第 3 步已经是现状，跳过。
+   - 已有界面、没有 token：统计现有代码里的颜色、字号、间距和圆角，按出现频率归并相近的值，写成 token。新 token 要能表达现有界面，这样之后的改动不会让风格突变。
    - 没有界面：问用户产品气质、参考产品、品牌色、明暗模式和信息密度，每项附推荐答案。风格由用户定。间距用固定的阶梯，字号用明确的层级，文字和背景的搭配满足 WCAG AA。
 2. **写两层。** 写代码 token 和 `DESIGN.md`，并从 `AGENTS.md` 的"界面"一节链接过去。
 3. **接入。** 在应用入口引入 token，让至少一个真实页面或组件用上它。已有页面保持原样，之后改到哪迁到哪，这样 diff 能审查，也不会一次改乱界面。
