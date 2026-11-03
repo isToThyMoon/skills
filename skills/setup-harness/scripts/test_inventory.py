@@ -35,7 +35,7 @@ def is_test(path):
 
 
 def count_lines(path):
-    """Line count, or None for binary files such as .ts video samples that share a code extension."""
+    """Line count, or None for binary files that happen to share a code extension."""
     try:
         data = path.read_bytes()
     except OSError:
