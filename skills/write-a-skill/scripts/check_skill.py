@@ -16,22 +16,9 @@ TOC_THRESHOLD = 300
 COMPLETION_WORDS = r"完成条件|完成标准|done when|done:|complete when|completion|finished when"
 
 
-def steps_without_completion(body):
-    """Numbered step headings whose section never states a completion criterion."""
-    headings = list(re.finditer(r"^(#{1,6})\s+(.*)$", body, re.M))
-    missing = []
-    for i, h in enumerate(headings):
-        if not re.match(r"\d+[.、)]", h.group(2)):
-            continue
-        level = len(h.group(1))
-        end = len(body)
-        for later in headings[i + 1:]:
-            if len(later.group(1)) <= level:
-                end = later.start()
-                break
-        if not re.search(COMPLETION_WORDS, body[h.end():end], re.I):
-            missing.append(h.group(2).strip())
-    return missing
+def numbered_steps(body):
+    """Headings written as a numbered step, a sign of a fixed flow."""
+    return [h for h in re.findall(r"^#{1,6}\s+(.*)$", body, re.M) if re.match(r"\d+[.、)]", h)]
 
 
 def parse_frontmatter(text):
@@ -106,8 +93,11 @@ def main():
     shouted = sorted(set(re.findall(r"\b(?:MUST|ALWAYS|NEVER)\b", body)))
     if shouted:
         notes.append(f"all-caps {', '.join(shouted)} in SKILL.md; explaining the reason usually works better")
-    for step in steps_without_completion(body):
-        notes.append(f"step '{step}' states no recognizable completion criterion")
+    steps = numbered_steps(body)
+    if len(steps) >= 4:
+        notes.append(f"{len(steps)} numbered steps; keep a fixed order only where the order itself is required, and state the rest as results and acceptance")
+    if not re.search(COMPLETION_WORDS, body, re.I):
+        notes.append("no recognizable completion criterion; say how to tell each result is done")
 
     for n in notes:
         print(f"note: {n}")

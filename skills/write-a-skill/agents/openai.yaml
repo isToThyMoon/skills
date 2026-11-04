@@ -1,4 +1,4 @@
 interface:
   display_name: "Write a Skill"
-  short_description: "按依循性原则写、改、拆分或诊断 agent skill，附独立审查和对比测试"
-  default_prompt: "使用 $write-a-skill 写这个 skill：先抓意图，定调用方式和粒度，按步骤与参考分层起草，每步写完成条件，压制规则交给检查环节，再做独立审查和对比测试。"
+  short_description: "写、改、拆分或诊断 agent skill：写清目标、结果和验收，中间留给模型发挥"
+  default_prompt: "使用 $write-a-skill 写这个 skill：抓住意图，定调用方式和粒度，写清目标、交付结果、可用信息和验收，只对难挽回的事设硬边界，再做独立审查和对比测试。"
