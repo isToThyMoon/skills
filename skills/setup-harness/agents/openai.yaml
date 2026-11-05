@@ -1,6 +1,6 @@
 interface:
   display_name: "Setup Harness"
   short_description: "给项目铺设或优化最小 harness：AGENTS.md 入口、业务词表、检查入口、UI token，并可审计精简测试"
-  default_prompt: "使用 $setup-harness 为这个仓库铺设或优化 harness：只写查不到的内容，交付词表和快速检查入口，有界面时加 UI token，用脚本和定位测试验收并报告，再由我决定是否审计并精简测试。"
+  default_prompt: "使用 $setup-harness 为这个仓库铺设或优化 harness：只写查不到的内容，交付词表和快速检查入口，有界面时加 UI token，用默认检查和定位测试验收并报告，再由我决定是否审计并精简测试。"
 policy:
   allow_implicit_invocation: false

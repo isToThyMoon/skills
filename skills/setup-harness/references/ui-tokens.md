@@ -30,7 +30,7 @@ token 分原始值和语义两级：`blue-500` 是原始值，`color-accent`、`
 
 ## 按现状定值
 
-- **已有 token**：值保持不变，核对类别覆盖，再补 `DESIGN.md` 和检查。
+- **已有 token**：值保持不变，核对类别覆盖，再补 `DESIGN.md`。这时它只写用途和风格，值指向代码，可以不写模板里的 YAML 值，免得存两份还要同步。
 - **已有界面、没有 token**：按现有代码里常用的颜色、字号、间距和圆角归纳。新 token 要能表达现有界面，这样之后的改动不会让风格突变。
 - **没有界面**：风格由用户定，可以问产品气质、参考产品、品牌色、明暗模式和信息密度，每项附推荐答案。间距用固定的阶梯，字号用明确的层级，文字和背景的搭配满足 WCAG AA。
 
@@ -38,11 +38,10 @@ token 分原始值和语义两级：`blue-500` 是原始值，`color-accent`、`
 
 - `AGENTS.md` 的"界面"一节链接到 `DESIGN.md`。
 - 已有页面保持原样，之后改到哪迁到哪，这样 diff 能审查，也不会一次改乱界面。
-- 检查入口只看尚未提交的新增样式代码（`git diff HEAD` 的新增行，加上 `git ls-files -o --exclude-standard` 列出的新文件），发现硬编码的颜色或间距就报错，并写明该换成哪类 token。技术栈有现成规则时用现成的（例如 `stylelint-declaration-strict-value`）。这项检查在不同技术栈上的准确度还没验证，误报多时收窄到颜色。
+- 技术栈有现成规则时（例如 `stylelint-declaration-strict-value`），可以接入检查入口。没有现成规则时靠文档引导，不另写脚本：agent 读了 `DESIGN.md` 通常会遵守，同样的错反复出现后再由用户决定要不要加检查。
 
 ## 完成条件
 
 - 上面列出的类别都有 token，或在 `DESIGN.md` 里写明为什么这个项目不需要。
 - 应用实际加载了代码 token，至少一个页面或组件引用它，启动后能看到效果。
-- 故意加一个硬编码颜色时，检查入口会报错；撤掉后恢复通过。
-- `npx @google/design.md lint DESIGN.md` 没有 error 和 `contrast-ratio` 警告，或已在报告里说明跳过原因。
+- `DESIGN.md` 写了值时，`npx @google/design.md lint DESIGN.md` 没有 error 和 `contrast-ratio` 警告，或已在报告里说明跳过原因。
